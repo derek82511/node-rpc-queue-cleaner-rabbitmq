@@ -1,0 +1,79 @@
+kind: CronJob
+apiVersion: batch/v1beta1
+metadata:
+  name: node-rpc-queue-cleaner-rabbitmq
+spec:
+  schedule: 0 * * * *
+  concurrencyPolicy: Allow
+  suspend: false
+  jobTemplate:
+    metadata:
+      name: node-rpc-queue-cleaner-rabbitmq
+      labels:
+        app: node-rpc-queue-cleaner-rabbitmq
+    spec:
+      template:
+        spec:
+          containers:
+            - name: node-rpc-queue-cleaner-rabbitmq
+              image: derek82511/node-rpc-queue-cleaner-rabbitmq:1.0.0
+              imagePullPolicy: IfNotPresent
+              env:
+                - name: RABBIT_MQ_MGMT_PROTO
+                  valueFrom:
+                    secretKeyRef:
+                      name: node-rpc-queue-cleaner-rabbitmq-secret
+                      key: rabbit_mq_mgmt_proto
+                - name: RABBIT_MQ_MGMT_HOST
+                  valueFrom:
+                    secretKeyRef:
+                      name: node-rpc-queue-cleaner-rabbitmq-secret
+                      key: rabbit_mq_mgmt_host
+                - name: RABBIT_MQ_MGMT_PORT
+                  valueFrom:
+                    secretKeyRef:
+                      name: node-rpc-queue-cleaner-rabbitmq-secret
+                      key: rabbit_mq_mgmt_port
+                - name: RABBIT_MQ_MGMT_USERNAME
+                  valueFrom:
+                    secretKeyRef:
+                      name: node-rpc-queue-cleaner-rabbitmq-secret
+                      key: rabbit_mq_mgmt_username
+                - name: RABBIT_MQ_MGMT_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: node-rpc-queue-cleaner-rabbitmq-secret
+                      key: rabbit_mq_mgmt_password
+                - name: MASTER_API_PROTO
+                  valueFrom:
+                    secretKeyRef:
+                      name: node-rpc-queue-cleaner-rabbitmq-secret
+                      key: master_api_proto
+                - name: MASTER_API_HOST
+                  valueFrom:
+                    secretKeyRef:
+                      name: node-rpc-queue-cleaner-rabbitmq-secret
+                      key: master_api_host
+                - name: MASTER_API_PORT
+                  valueFrom:
+                    secretKeyRef:
+                      name: node-rpc-queue-cleaner-rabbitmq-secret
+                      key: master_api_port
+                - name: MASTER_API_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      name: node-rpc-queue-cleaner-rabbitmq-secret
+                      key: master_api_token
+                - name: APP_NAMESPACE
+                  valueFrom:
+                    secretKeyRef:
+                      name: node-rpc-queue-cleaner-rabbitmq-secret
+                      key: app_namespace
+                - name: APP_NAME
+                  valueFrom:
+                    secretKeyRef:
+                      name: node-rpc-queue-cleaner-rabbitmq-secret
+                      key: app_name
+          restartPolicy: Never
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3

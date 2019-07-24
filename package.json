@@ -1,0 +1,16 @@
+{
+  "name": "node-rpc-queue-cleaner-rabbitmq",
+  "version": "1.0.0",
+  "description": "Rabbitmq queue cleaner",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "Derek Chang <derek82511@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.19.0"
+  },
+  "devDependencies": {}
+}
